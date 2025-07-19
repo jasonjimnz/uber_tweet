@@ -1,4 +1,5 @@
 import json
+import random
 import time
 
 import paho.mqtt.client as mqtt
@@ -7,7 +8,6 @@ from faker import Faker
 MQTT_BROKER_HOST = "localhost"
 MQTT_BROKER_PORT = 1883
 MQTT_TOPIC = "sensor/data"
-
 client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, "sensor_producer")
 
 
@@ -29,7 +29,8 @@ client.on_publish = on_publish
 client.on_connect = on_connect
 _faker = Faker()
 lat, lon = _faker.latlng()
-
+drivers = json.loads(open("drivers.json").read())
+random_driver = random.choice(drivers)
 
 def main():
     try:
@@ -47,7 +48,7 @@ def main():
     try:
         while True:
             payload = {
-                "driver_id": "a933a03e-1f9b-4438-8776-84610baa2d6b",
+                "driver_id": random_driver,
                 "timestamp": time.time(),
                 "lat": float(lat),
                 "lon": float(lon)

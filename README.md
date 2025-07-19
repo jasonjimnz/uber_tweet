@@ -120,9 +120,28 @@ Alternatively, you can use a database client like pgAdmin or DBeaver to connect 
 
 ## Testing the System
 
-Once all containers are running and the database is initialized, you can generate valid driver position updates using the mqtt_producer:
+Create an `.env` file with the following content:
+
+```dotenv
+# .env file
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/food_delivery
+
+# --- NEW KAFKA & SERVICE CONFIG ---
+KAFKA_BOOTSTRAP_SERVERS=localhost:9092
+KAFKA_TOPIC=driver-pos
+DRIVER_API_URL=http://localhost:8001
+```
+
+Create it in `api`, `driver_api`, `driver_events`, `python_mqtt` folders
+
+Once all containers are running and the database is initialized,
+generate sample data, extract valid drivers and then you can 
+generate valid driver position updates using the mqtt_producer:
 
 ```bash
+# Consider adding ENVs first
+python api/generate_data.py
+python driver_extractor.py
 python mqtt_producer.py
 ```
 

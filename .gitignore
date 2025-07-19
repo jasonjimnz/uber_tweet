@@ -122,3 +122,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# drivers id
+drivers.json
